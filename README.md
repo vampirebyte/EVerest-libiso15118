@@ -36,7 +36,6 @@ header. They are applied in order onto `upstream`.
 | `0001` libslac's state machines on `fsm::v2` instead of Boost.MSM, from [EVerest/EVerest#3106](https://github.com/EVerest/EVerest/pull/3106) | No Boost.MSM templates: plain state classes that build on embedded toolchains with less code. | EVerest adopts fsm::v2 |
 | `0002` EVerest main's later fixes to the EVSE machine, ported onto `fsm::v2` (EVerest/EVerest#3133, EVerest/EVerest#3166, EVerest/EVerest#3328, EVerest/EVerest#3334) | They were made to the Boost.MSM machine only. | with `0001` |
 | `0003` no `SO_REUSEPORT` on lwIP in the SDP server | lwIP (ESP-IDF) does not implement the option; the SDP server would not start. | the ESP-IDF in use supports `SO_REUSEPORT` |
-| `0004` `PollManager` polls its eventfd from construction and closes it on destruction | Since the controller binds the network interface after its first `poll()`, that poll had an empty set: ESP-IDF rejects it (`fds == NULL`), and `abort()` could not wake it. The eventfd also leaked with every controller. | EVerest merges the fix |
 
 Everything else is identical to EVerest main, including the README, `THIRD_PARTY.md` and `LICENSE` files of the
 libraries. `patches.sh verify` checks on every pull request that `esp32/main` is exactly `upstream`
